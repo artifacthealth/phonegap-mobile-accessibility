@@ -42,24 +42,27 @@ import java.lang.reflect.Method;
  */
 public class MobileAccessibility extends CordovaPlugin {
 
+    View mView;
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
+        WebView view;
         try {
-            Method getView = this.webView.getClass().getMethod("getView");
-            View mView = (View)getView.invoke(this.webView);
-
-            Method getSettings = mView.getClass().getMethod("getSettings");
-            Object wSettings = getSettings.invoke(mView);
-            Method setTextZoom = wSettings.getClass().getMethod("setTextZoom", Integer.TYPE);
-            setTextZoom.invoke(wSettings, 100);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            view = (WebView) mobileAccessibility.webView;
+            mView = view;
+        } catch(ClassCastException ce) {  // cordova-android 4.0+
+            try {
+                Method getView = mobileAccessibility.webView.getClass().getMethod("getView");
+                mView = (View) getView.invoke(mobileAccessibility.webView);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -74,13 +77,34 @@ public class MobileAccessibility extends CordovaPlugin {
     }
 
     private void getTextZoom(final CallbackContext callbackContext) {
+
+        float fontScale = cordova.getActivity().getResources().getConfiguration().fontScale;
+
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                float fontScale = cordova.getActivity().getResources().getConfiguration().fontScale;
+                setTextZoom(100);
                 if (callbackContext != null) {
                     callbackContext.success((int) fontScale);
                 }
             }
         });
+    }
+
+    private void setTextZoom(double textZoom) {
+        
+        try {
+            Method getSettings = mView.getClass().getMethod("getSettings");
+            Object wSettings = getSettings.invoke(mView);
+            Method setTextZoom = wSettings.getClass().getMethod("setTextZoom", Integer.TYPE);
+            setTextZoom.invoke(wSettings, (int) textZoom);
+        } catch (ClassCastException ce) {
+            ce.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }
