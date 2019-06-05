@@ -27,8 +27,6 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.os.Build;
 import android.webkit.WebView;
@@ -43,16 +41,10 @@ import java.lang.reflect.Method;
 public class MobileAccessibility extends CordovaPlugin {
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        try {
-            
-            if(action.equals("getTextZoom")) {
-                getTextZoom(callbackContext);
-                return true;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+        if(action.equals("getTextZoom")) {
+            getTextZoom(callbackContext);
+            return true;
         }
         return false;
     }
