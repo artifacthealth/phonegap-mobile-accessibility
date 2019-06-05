@@ -48,7 +48,7 @@ public class MobileAccessibility extends CordovaPlugin {
 
         try {
             Method getView = this.webView.getClass().getMethod("getView");
-            View mView = getView.invoke((View)this.webView);
+            View mView = (View)getView.invoke(this.webView);
 
             Method getSettings = mView.getClass().getMethod("getSettings");
             Object wSettings = getSettings.invoke(mView);
