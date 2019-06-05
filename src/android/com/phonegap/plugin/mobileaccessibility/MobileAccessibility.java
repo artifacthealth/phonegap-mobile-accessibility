@@ -42,6 +42,27 @@ import java.lang.reflect.Method;
 public class MobileAccessibility extends CordovaPlugin {
 
     @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+
+        try {
+            Method getView = mobileAccessibility.webView.getClass().getMethod("getView");
+            mView = (View) getView.invoke(mobileAccessibility.webView);
+
+            Method getSettings = mView.getClass().getMethod("getSettings");
+            Object wSettings = getSettings.invoke(mView);
+            Method setTextZoom = wSettings.getClass().getMethod("setTextZoom", Integer.TYPE);
+            setTextZoom.invoke(wSettings, 100);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 
         Log.i("MobileAccessibility", "Execute action " + action);
