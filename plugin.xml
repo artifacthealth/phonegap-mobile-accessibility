@@ -31,11 +31,13 @@
     <!-- android -->
     <platform name="android">
         <config-file target="config.xml" parent="/*">
+            <access origin="https://ssl.gstatic.com/accessibility/javascript/android/*" />
             <feature name="MobileAccessibility" >
                 <param name="android-package" value="com.phonegap.plugin.mobileaccessibility.MobileAccessibility"/>
             </feature>
         </config-file>
         <source-file src="src/android/com/phonegap/plugin/mobileaccessibility/MobileAccessibility.java" target-dir="src/com/phonegap/plugin/mobileaccessibility" />
+        <asset src="www/android" target="plugins/com.phonegap.plugin.mobile-accessibility/android" />
     </platform>
 
 </plugin>
