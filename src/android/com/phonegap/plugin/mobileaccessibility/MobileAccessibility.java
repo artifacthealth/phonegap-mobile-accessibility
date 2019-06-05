@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 package com.phonegap.plugin.mobileaccessibility;
 
@@ -64,6 +64,9 @@ public class MobileAccessibility extends CordovaPlugin {
                 e.printStackTrace();
             }
         }
+
+        // we do not want Android to set the text size on the WebView so set to 100
+        setWebViewTextZoom(100);
     }
 
     @Override
@@ -82,29 +85,34 @@ public class MobileAccessibility extends CordovaPlugin {
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                setTextZoom(100);
                 if (callbackContext != null) {
-                    callbackContext.success((int) fontScale);
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, fontScale);
+                    pluginResult.setKeepCallback(true);
+                    callbackContext.sendPluginResult(pluginResult);
                 }
             }
         });
     }
 
-    private void setTextZoom(double textZoom) {
-        
-        try {
-            Method getSettings = mView.getClass().getMethod("getSettings");
-            Object wSettings = getSettings.invoke(mView);
-            Method setTextZoom = wSettings.getClass().getMethod("setTextZoom", Integer.TYPE);
-            setTextZoom.invoke(wSettings, (int) textZoom);
-        } catch (ClassCastException ce) {
-            ce.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    private void setWebViewTextZoom(double textZoom) {
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    Method getSettings = mView.getClass().getMethod("getSettings");
+                    Object wSettings = getSettings.invoke(mView);
+                    Method setTextZoom = wSettings.getClass().getMethod("setTextZoom", Integer.TYPE);
+                    setTextZoom.invoke(wSettings, (int) textZoom);
+                } catch (ClassCastException ce) {
+                    ce.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
