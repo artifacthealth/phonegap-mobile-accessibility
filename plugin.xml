@@ -31,7 +31,6 @@
     <!-- android -->
     <platform name="android">
         <config-file target="config.xml" parent="/*">
-            <access origin="https://ssl.gstatic.com/accessibility/javascript/android/*" />
             <feature name="MobileAccessibility" >
                 <param name="android-package" value="com.phonegap.plugin.mobileaccessibility.MobileAccessibility"/>
             </feature>
