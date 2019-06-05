@@ -14,8 +14,7 @@
     "id": "phonegap-plugin-mobile-accessibility",
     "platforms": [
       "ios",
-      "android",
-      "windows"
+      "android"
     ]
   },
   "keywords": [
