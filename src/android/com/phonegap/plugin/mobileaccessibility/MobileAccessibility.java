@@ -30,6 +30,7 @@ import org.json.JSONArray;
 
 import android.os.Build;
 import android.webkit.WebView;
+import android.util.Log;
 
 import java.lang.IllegalAccessException;
 import java.lang.reflect.InvocationTargetException;
