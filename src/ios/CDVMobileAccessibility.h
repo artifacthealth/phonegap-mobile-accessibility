@@ -21,7 +21,7 @@
 
 #import <Cordova/CDVPlugin.h>
 
-static const int BASE_UI_FONT_TEXT_STYLE_BODY_POINT_SIZE = 16;
+static const int BASE_UI_FONT_TEXT_STYLE_BODY_POINT_SIZE = 17;
 
 @interface CDVMobileAccessibility : CDVPlugin {
     NSString* callbackId;
