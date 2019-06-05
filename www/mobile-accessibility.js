@@ -33,13 +33,6 @@ MobileAccessibility.prototype.getTextZoom = function(callback) {
     exec(callback, null, "MobileAccessibility", "getTextZoom", []);
 };
 
-/**
- * Error callback for MobileAccessibility start
- */
-MobileAccessibility.prototype._error = function(e) {
-    console.log("Error initializing MobileAccessibility: " + e);
-};
-
 var mobileAccessibility = new MobileAccessibility();
 
 module.exports = mobileAccessibility;

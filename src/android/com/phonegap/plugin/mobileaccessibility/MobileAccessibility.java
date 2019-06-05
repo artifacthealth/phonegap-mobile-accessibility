@@ -42,6 +42,9 @@ public class MobileAccessibility extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+
+        Log.i("MobileAccessibility", "Execute action " + action);
+
         if(action.equals("getTextZoom")) {
             getTextZoom(callbackContext);
             return true;
@@ -53,7 +56,9 @@ public class MobileAccessibility extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 float fontScale = cordova.getActivity().getResources().getConfiguration().fontScale;
+                Log.i("MobileAccessibility", "Font Scale = " + fontScale);
                 if (callbackContext != null) {
+                    Log.i("MobileAccessibility", "Calling callback");
                     callbackContext.success((int) fontScale);
                 }
             }
