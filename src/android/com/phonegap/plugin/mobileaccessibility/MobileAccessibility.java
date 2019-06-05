@@ -50,12 +50,12 @@ public class MobileAccessibility extends CordovaPlugin {
 
         WebView view;
         try {
-            view = (WebView) mobileAccessibility.webView;
+            view = (WebView) this.webView;
             mView = view;
         } catch(ClassCastException ce) {  // cordova-android 4.0+
             try {
-                Method getView = mobileAccessibility.webView.getClass().getMethod("getView");
-                mView = (View) getView.invoke(mobileAccessibility.webView);
+                Method getView = this.webView.getClass().getMethod("getView");
+                mView = (View) getView.invoke(this.webView);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
